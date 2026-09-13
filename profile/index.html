@@ -26,17 +26,21 @@
     color:var(--text-0);
   }
 
-  /* ---------- พื้นหลังหลังเว็บ: เปลี่ยน URL รูปใน background-image ด้านล่างนี้ ---------- */
-  .bg{
+  /* ---------- พื้นหลังหลังเว็บ: วิดีโอพื้นหลัง (MP4) เปลี่ยนไฟล์ใน <source> ด้านล่าง body ---------- */
+  .bg-wrap{
     position:fixed; inset:0;
-    background-image:url('https://images.unsplash.com/photo-1502442598385-3f5b17d1f8b3?q=80&w=1400&auto=format&fit=crop');
-    background-size:cover;
-    background-position:center;
-    filter:blur(38px) brightness(0.35) saturate(1.2);
-    transform:scale(1.15);
     z-index:0;
+    overflow:hidden;
   }
-  .bg::after{
+  .bg-wrap video{
+    position:absolute; top:50%; left:50%;
+    min-width:100%; min-height:100%;
+    width:auto; height:auto;
+    transform:translate(-50%,-50%) scale(1.15);
+    object-fit:cover;
+    filter:blur(28px) brightness(0.4) saturate(1.2);
+  }
+  .bg-wrap::after{
     content:"";
     position:absolute; inset:0;
     background:radial-gradient(circle at 50% 20%, rgba(185,140,255,0.18), transparent 60%),
@@ -256,7 +260,12 @@
 </head>
 <body>
 
-  <div class="bg" id="bgEl"></div>
+  <div class="bg-wrap">
+    <!-- วิดีโอพื้นหลัง: เปลี่ยนไฟล์ bg.mp4 เป็นวิดีโอของคุณ (วางไฟล์ไว้โฟลเดอร์เดียวกับ index.html นี้) -->
+    <video autoplay muted loop playsinline>
+      <source src="bg.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <button class="edit-fab" id="editFab" type="button" title="แก้ไขรูป">✎</button>
 
@@ -265,13 +274,6 @@
       <h3>เปลี่ยนรูป (เห็นเฉพาะเครื่องนี้)</h3>
       <p class="hint">รูปที่เปลี่ยนจะบันทึกไว้ในเบราว์เซอร์นี้เท่านั้น คนอื่นที่เข้าเว็บจากเครื่อง/เบราว์เซอร์อื่นจะไม่เห็นการเปลี่ยนแปลง</p>
 
-      <div class="edit-row">
-        <span>พื้นหลังเว็บ</span>
-        <div class="edit-actions">
-          <label>เลือกรูป<input type="file" accept="image/*" data-target="bg"></label>
-          <button class="reset" data-reset="bg" type="button">รีเซ็ต</button>
-        </div>
-      </div>
       <div class="edit-row">
         <span>ปกโปรไฟล์</span>
         <div class="edit-actions">
@@ -346,7 +348,6 @@
   /* ---------- local-only image customization ---------- */
   const STORE_PREFIX = 'biolink_img_';
   const targets = {
-    bg:     document.getElementById('bgEl'),
     cover:  document.getElementById('coverEl'),
     avatar: document.getElementById('avatarEl')
   };
