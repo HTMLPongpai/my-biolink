@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@yourname</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root{
+    --bg-0:#0b0a12;
+    --accent:#b98cff;
+    --accent-2:#5eead4;
+    --text-0:#f4f2fa;
+    --text-1:#a9a4bf;
+    --card-border:rgba(255,255,255,0.10);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    height:100%;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    background:var(--bg-0);
+    color:var(--text-0);
+    overflow:hidden;
+  }
+
+  /* ---------- พื้นหลังหลังเว็บ: เปลี่ยน URL รูปใน background-image ด้านล่างนี้ ---------- */
+  .bg{
+    position:fixed; inset:0;
+    background-image:url('https://images.unsplash.com/photo-1502442598385-3f5b17d1f8b3?q=80&w=1400&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    filter:blur(38px) brightness(0.35) saturate(1.2);
+    transform:scale(1.15);
+    z-index:0;
+  }
+  .bg::after{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 20%, rgba(185,140,255,0.18), transparent 60%),
+               linear-gradient(180deg, rgba(11,10,18,0.4), rgba(11,10,18,0.92));
+  }
+
+  #gate{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:opacity .5s ease;
+  }
+  #gate.leaving{ opacity:0; }
+  .gate-inner{
+    position:relative; z-index:1;
+    text-align:center;
+    animation:pulse 2.2s ease-in-out infinite;
+  }
+  .ring{
+    width:64px; height:64px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    border:2px solid var(--card-border);
+    border-top-color:var(--accent);
+    animation:spin 1.1s linear infinite;
+  }
+  .gate-inner p{
+    letter-spacing:.4px;
+    font-size:13px;
+    color:var(--text-1);
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  .gate-inner span{ color:var(--text-0); }
+
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+
+  @media (prefers-reduced-motion: reduce){
+    .ring{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg"></div>
+
+  <div id="gate">
+    <div class="gate-inner">
+      <div class="ring"></div>
+      <p><span>click</span> to enter</p>
+    </div>
+  </div>
+
+<script>
+  const gate = document.getElementById('gate');
+  gate.addEventListener('click', () => {
+    gate.classList.add('leaving');
+    setTimeout(() => {
+      window.location.href = 'profile/';
+    }, 450);
+  });
+</script>
+</body>
+</html>
