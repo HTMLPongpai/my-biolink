@@ -168,20 +168,137 @@
     .avatar-wrap::before{ animation:none; }
     .card{ animation:none; opacity:1; transform:none; }
   }
+
+  /* ---------- edit panel (local only) ---------- */
+  .edit-fab{
+    position:fixed; right:16px; bottom:16px; z-index:40;
+    width:44px; height:44px;
+    border-radius:50%;
+    border:1px solid var(--card-border);
+    background:rgba(20,17,32,0.85);
+    backdrop-filter:blur(10px);
+    color:var(--text-0);
+    font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .edit-fab:hover{ border-color:rgba(185,140,255,0.5); }
+
+  .edit-panel{
+    position:fixed; inset:0; z-index:41;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,0.55);
+  }
+  .edit-panel.open{ display:flex; }
+  .edit-sheet{
+    width:100%; max-width:400px;
+    background:#151222;
+    border:1px solid var(--card-border);
+    border-radius:20px 20px 0 0;
+    padding:20px 22px 26px;
+  }
+  .edit-sheet h3{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .edit-sheet .hint{
+    font-size:11.5px;
+    color:var(--text-1);
+    line-height:1.5;
+    margin-bottom:16px;
+  }
+  .edit-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-top:1px solid var(--card-border);
+  }
+  .edit-row span{ font-size:13px; font-weight:600; }
+  .edit-row .edit-actions{ display:flex; gap:8px; }
+  .edit-row label{
+    font-size:12px;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid var(--card-border);
+    cursor:pointer;
+  }
+  .edit-row button.reset{
+    font-size:12px;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:10px;
+    background:transparent;
+    border:1px solid var(--card-border);
+    color:var(--text-1);
+    cursor:pointer;
+  }
+  .edit-row input[type=file]{ display:none; }
+  .edit-close{
+    display:block;
+    width:100%;
+    margin-top:14px;
+    padding:11px;
+    text-align:center;
+    border-radius:10px;
+    background:var(--accent);
+    color:#181225;
+    font-weight:700;
+    font-size:13px;
+    border:none;
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
 
-  <div class="bg"></div>
+  <div class="bg" id="bgEl"></div>
+
+  <button class="edit-fab" id="editFab" type="button" title="แก้ไขรูป">✎</button>
+
+  <div class="edit-panel" id="editPanel">
+    <div class="edit-sheet">
+      <h3>เปลี่ยนรูป (เห็นเฉพาะเครื่องนี้)</h3>
+      <p class="hint">รูปที่เปลี่ยนจะบันทึกไว้ในเบราว์เซอร์นี้เท่านั้น คนอื่นที่เข้าเว็บจากเครื่อง/เบราว์เซอร์อื่นจะไม่เห็นการเปลี่ยนแปลง</p>
+
+      <div class="edit-row">
+        <span>พื้นหลังเว็บ</span>
+        <div class="edit-actions">
+          <label>เลือกรูป<input type="file" accept="image/*" data-target="bg"></label>
+          <button class="reset" data-reset="bg" type="button">รีเซ็ต</button>
+        </div>
+      </div>
+      <div class="edit-row">
+        <span>ปกโปรไฟล์</span>
+        <div class="edit-actions">
+          <label>เลือกรูป<input type="file" accept="image/*" data-target="cover"></label>
+          <button class="reset" data-reset="cover" type="button">รีเซ็ต</button>
+        </div>
+      </div>
+      <div class="edit-row">
+        <span>รูปโปรไฟล์</span>
+        <div class="edit-actions">
+          <label>เลือกรูป<input type="file" accept="image/*" data-target="avatar"></label>
+          <button class="reset" data-reset="avatar" type="button">รีเซ็ต</button>
+        </div>
+      </div>
+
+      <button class="edit-close" id="editClose" type="button">เสร็จแล้ว</button>
+    </div>
+  </div>
 
   <div class="stage">
     <div class="card">
       <!-- ปกโปรไฟล์: เปลี่ยน URL ในบรรทัดนี้เป็นรูปปกของคุณ -->
-      <div class="cover" style="background-image:url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1200&auto=format&fit=crop');"></div>
+      <div class="cover" id="coverEl" style="background-image:url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1200&auto=format&fit=crop');"></div>
 
       <div class="card-body">
         <div class="avatar-wrap">
-          <div class="avatar" style="background-image:url('https://api.dicebear.com/7.x/thumbs/svg?seed=yourname');"></div>
+          <div class="avatar" id="avatarEl" style="background-image:url('https://api.dicebear.com/7.x/thumbs/svg?seed=yourname');"></div>
           <div class="badge"></div>
         </div>
 
@@ -225,6 +342,59 @@
     }, 24);
   }
   animateViews();
+
+  /* ---------- local-only image customization ---------- */
+  const STORE_PREFIX = 'biolink_img_';
+  const targets = {
+    bg:     document.getElementById('bgEl'),
+    cover:  document.getElementById('coverEl'),
+    avatar: document.getElementById('avatarEl')
+  };
+
+  // โหลดรูปที่เคยบันทึกไว้ในเบราว์เซอร์นี้ (ถ้ามี)
+  Object.keys(targets).forEach(key => {
+    const saved = localStorage.getItem(STORE_PREFIX + key);
+    if(saved){
+      targets[key].style.backgroundImage = `url('${saved}')`;
+    }
+  });
+
+  const editFab   = document.getElementById('editFab');
+  const editPanel = document.getElementById('editPanel');
+  const editClose = document.getElementById('editClose');
+
+  editFab.addEventListener('click', () => editPanel.classList.add('open'));
+  editClose.addEventListener('click', () => editPanel.classList.remove('open'));
+  editPanel.addEventListener('click', (e) => {
+    if(e.target === editPanel) editPanel.classList.remove('open');
+  });
+
+  document.querySelectorAll('input[type=file][data-target]').forEach(input => {
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const key = e.target.dataset.target;
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        targets[key].style.backgroundImage = `url('${dataUrl}')`;
+        try{
+          localStorage.setItem(STORE_PREFIX + key, dataUrl);
+        }catch(err){
+          alert('รูปใหญ่เกินไป บันทึกไม่สำเร็จ ลองรูปที่เล็กลง');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  document.querySelectorAll('button[data-reset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.reset;
+      localStorage.removeItem(STORE_PREFIX + key);
+      location.reload();
+    });
+  });
 </script>
 </body>
 </html>
