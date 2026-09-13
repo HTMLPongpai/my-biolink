@@ -155,14 +155,17 @@
   }
   .link{
     display:flex; align-items:center; gap:12px;
+    width:100%;
     padding:12px 16px;
     background:rgba(255,255,255,0.04);
     border:1px solid var(--card-border);
     border-radius:12px;
     color:var(--text-0);
     text-decoration:none;
+    font-family:inherit;
     font-size:13.5px;
     font-weight:600;
+    cursor:pointer;
     transition:transform .15s ease, background .15s ease, border-color .15s ease;
   }
   .link:hover{
@@ -211,17 +214,17 @@
       <div class="bio">แก้ข้อความตรงนี้เป็นแนะนำตัวสั้น ๆ ของคุณ ✦</div>
 
       <div class="links">
-        <a class="link" href="#" target="_blank" rel="noopener">
+        <button class="link" id="discordCopy" type="button" data-username="chy_botun_55683">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.6 12.6 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127c-.598.35-1.22.645-1.873.893a.076.076 0 0 0-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.001-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418Z"/></svg>
-          <span>Discord</span>
-          <span class="go">↗</span>
-        </a>
-        <a class="link" href="#" target="_blank" rel="noopener">
+          <span id="discordLabel">Discord · @chy_botun_55683</span>
+          <span class="go" id="discordIcon">⧉</span>
+        </button>
+        <a class="link" href="https://www.instagram.com/chayodom.6549/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069Zm0 2.163c-3.148 0-3.517.012-4.755.069-2.457.111-3.605 1.281-3.716 3.716-.057 1.237-.068 1.605-.068 4.753s.012 3.517.068 4.754c.111 2.433 1.256 3.605 3.716 3.716 1.238.056 1.605.069 4.755.069 3.148 0 3.518-.013 4.755-.069 2.456-.111 3.606-1.28 3.716-3.716.057-1.237.069-1.606.069-4.754s-.012-3.516-.069-4.753c-.11-2.437-1.257-3.605-3.716-3.716-1.237-.057-1.607-.069-4.755-.069Zm0 3.677a5.997 5.997 0 1 1 0 11.994 5.997 5.997 0 0 1 0-11.994Zm0 9.891a3.894 3.894 0 1 0 0-7.788 3.894 3.894 0 0 0 0 7.788Zm6.406-10.121a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg>
           <span>Instagram</span>
           <span class="go">↗</span>
         </a>
-        <a class="link" href="#" target="_blank" rel="noopener">
+        <a class="link" href="https://youtube.com" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
           <span>YouTube</span>
           <span class="go">↗</span>
@@ -242,6 +245,29 @@
     setTimeout(() => gate.remove(), 700);
     card.classList.add('show');
     animateViews();
+  });
+
+  const discordBtn = document.getElementById('discordCopy');
+  const discordLabel = document.getElementById('discordLabel');
+  const discordIcon = document.getElementById('discordIcon');
+  discordBtn.addEventListener('click', async () => {
+    const username = discordBtn.dataset.username;
+    try{
+      await navigator.clipboard.writeText(username);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = username;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    discordLabel.textContent = 'คัดลอกแล้ว!';
+    discordIcon.textContent = '✓';
+    setTimeout(() => {
+      discordLabel.textContent = 'Discord · @' + username;
+      discordIcon.textContent = '⧉';
+    }, 1600);
   });
 
   function animateViews(){
